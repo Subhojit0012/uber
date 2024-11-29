@@ -1,0 +1,33 @@
+## FOLDER STRUCTURE:
+uber/
+├── controllers/
+│   └── user.controller.js      # Handles user-related requests
+├── db/
+│   └── dbConnect.js            # Database connection logic
+├── models/
+│   └── user.model.js            # Mongoose user model
+├── routers/
+│   └── user.routes.js           # User-related routes
+├── services/
+│   └── user.service.js          # User service for business logic
+├── crypotoKey.js                # Key generation for cryptographic operations
+├── connectStr.js                # Database name configuration
+├── index.js                     # Main application setup
+├── package.json                 # Project metadata and dependencies
+└── server.js                    # Server entry point
+
+### Explanation of the Code
+
+1. **Database Connection**: The `dbConnect.js` file establishes a connection to the MongoDB database using Mongoose.
+
+2. **User Model**: The `user.model.js` file defines the schema for the user, including fields for the user's full name, email, password, and socket ID. It also includes methods for generating authentication tokens and hashing passwords.
+
+3. **User Registration Logic**: The `user.controller.js` file contains the logic for registering a user. It validates the input, hashes the password, creates a new user, and generates a JWT token upon successful registration.
+
+4. **Routing**: The `user.routes.js` file defines the API endpoint for user registration, using Express Router to handle incoming requests.
+
+5. **Service Layer**: The `user.service.js` file encapsulates the logic for creating a user, ensuring that all required fields are provided.
+
+6. **Server Setup**: The `server.js` file initializes the Express application and starts the server, listening on a specified port.
+
+Feel free to modify the README content to better fit your project's specifics or to add any additional information that may be relevant!
