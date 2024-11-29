@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { validationResult } from "express-validator";
 import createUser from "../services/user.service.js";
+
 /*
   * @token: when the user will be registred the token will be created
   ! @erors: checks all fields in the body
@@ -50,7 +51,16 @@ const loginUser = async (req, res) => {
 
   if (!token) return res.status(401).json({ message: "Token not created" });
 
-  res.status(200).cookie("token", token).json({ token, user });
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.status(200).cookie("token", token, options).json({ token, user });
 };
 
-export { registerUser, loginUser };
+const getUserProfile = async (req, res) => {
+  return res.status(200).json(req.user);
+};
+
+export { registerUser, loginUser, getUserProfile };

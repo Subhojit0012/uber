@@ -7,9 +7,7 @@ import { User } from "../models/user.model.js";
 // and attaches the user object to the request for further processing.
 // If the token is missing, invalid, or the user is not found, it sends an appropriate error response.
 export const authUser = async (req, res, next) => {
-  const token =
-    req.cookies.token ||
-    (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
 
   // Check if the token is provided
   if (!token) {
@@ -22,7 +20,7 @@ export const authUser = async (req, res, next) => {
 
     // Check if the token was successfully decoded
     if (!decoded) {
-      return res.status(401).json({ message: "Token not verified!" });
+      return res.status(401).json({ message: "Unauthorized!" });
     }
 
     // Find the user associated with the decoded token ID
