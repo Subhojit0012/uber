@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "node:crypto";
 
 const GENERATE_KEY = crypto.generateKey("hmac", { length: 64 }, (err, key) => {
   if (err) err.message;

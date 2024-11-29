@@ -1,9 +1,9 @@
-const app = require("./index");
-const connectDB = require("./db/dbConnect");
+import app from "./index.js"
+import coonectDB from "./db/dbConnect.js";
 
 const PORT = process.env.PORT || 8080;
 
-connectDB()
+coonectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log("server running at:", `http://localhost:${PORT}`);

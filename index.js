@@ -1,8 +1,7 @@
-const express = require("express");
-const dotenv = require("dotenv");
-dotenv.config();
-const cors = require("cors");
-const userRoute = require("./routers/user.routes");
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import userRoute from "./routers/user.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -15,4 +14,4 @@ app.get("/", (req, res) => {
 
 app.use("/auth/v2/user", userRoute);
 
-module.exports = app;
+export default app;

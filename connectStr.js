@@ -1,3 +1,2 @@
-const DB_NAME = "alter";
+export const DB_NAME = "alter";
 
-module.exports = DB_NAME

@@ -1,20 +1,33 @@
-const express = require("express");
+import express from "express";
+import { body } from "express-validator";
+import { registerUser, loginUser } from "../controllers/user.controller.js";
+
 const router = express.Router();
-const { body } = require("express-validator");
-const userController = require('../controllers/user.controller')
 
 router
   .route("/register")
   .post(
-    [body("email").trim().isEmail().withMessage("Email required!"),
-    body("fullName.firstname")
-      .isLength({ min: 3 })
-      .isString()
-      .withMessage("Invalid! 🛑"),
-    body("password")
-      .isLength({ min: 6 })
-      .withMessage("Minimum length 6 characters! 👈")],
-      userController.registerUser
+    [
+      body("email").trim().isEmail().withMessage("Email required!"),
+      body("fullName.firstname")
+        .isLength({ min: 3 })
+        .isString()
+        .withMessage("Invalid! 🛑"),
+      body("password")
+        .isLength({ min: 6 })
+        .withMessage("Minimum length 6 characters! 👈"),
+    ],
+    registerUser
   );
 
-module.exports = router;
+router
+  .route("/login")
+  .post(
+    [
+      body("email").isEmail().withMessage("Email is required!"),
+      body("password").isLength({ min: 6 }).withMessage("Password required!"),
+    ],
+    loginUser
+  );
+
+export default router;

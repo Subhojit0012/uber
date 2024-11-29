@@ -1,22 +1,21 @@
-const User = require("../models/user.model");
+import {User} from "../models/user.model.js";
 
 const createUser = async ({ firstname, lastname, email, password }) => {
   if (!firstname || !email || !password) {
     throw new Error("Allfields are required!");
   }
 
-  const user = new User({
+  const user = await User.create({
     fullName: {
-      firstname,
-      lastname,
+      firstname: firstname,
+      lastname: lastname,
     },
-    email,
-    password,
+    email: email,
+    password: password,
   });
 
-  if (!user) throw new Error("User not created!");
+  if (!user) return console.log("User model not created!");
 
   return user;
 };
-
-module.exports = createUser;
+export default createUser;
