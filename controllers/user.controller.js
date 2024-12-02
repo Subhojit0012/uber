@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { validationResult } from "express-validator";
 import createUser from "../services/user.service.js";
+import { BlacklistToken } from "../models/blacklistToken.model.js";
 
 /*
   * @token: when the user will be registred the token will be created
@@ -64,10 +65,20 @@ const getUserProfile = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
+  const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+
+  if (!token) return res.status(400).json({ message: "Token not found" });
+  const blacklist = await BlacklistToken.create({ token: token });
+
+  if (!blacklist)
+    return res
+      .status(400)
+      .json({ message: "token balcklisted unsuccessfull!" });
+
   return res
     .clearCookie("token")
     .status(200)
-    .json({ message: "Cookie cleared!" });
+    .json({ message: "cookie cleared" });
 };
 
 export { registerUser, loginUser, getUserProfile, logoutUser };
