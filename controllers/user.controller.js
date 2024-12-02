@@ -63,4 +63,11 @@ const getUserProfile = async (req, res) => {
   return res.status(200).json(req.user);
 };
 
-export { registerUser, loginUser, getUserProfile };
+const logoutUser = async (req, res) => {
+  return res
+    .clearCookie("token")
+    .status(200)
+    .json({ message: "Cookie cleared!" });
+};
+
+export { registerUser, loginUser, getUserProfile, logoutUser };

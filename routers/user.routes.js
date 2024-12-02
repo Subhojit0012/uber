@@ -4,6 +4,7 @@ import {
   registerUser,
   loginUser,
   getUserProfile,
+  logoutUser,
 } from "../controllers/user.controller.js";
 import { authUser } from "../middleware/auth.middleware.js";
 
@@ -36,5 +37,6 @@ router
   );
 
 router.route("/profile").get(authUser, getUserProfile);
+router.route("/logout").get(authUser, logoutUser);
 
 export default router;
