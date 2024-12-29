@@ -50,11 +50,11 @@ const captainSchema = new Schema({
       required: true,
       min: [1, "capacity must be at least 1"],
     },
-  },
-  vehicleType: {
-    type: String,
-    enum: ["car", "motorcycle", "auto"],
-    required: true,
+    vehicleType: {
+      type: String,
+      enum: ["car", "motorcycle", "auto"],
+      required: true,
+    },
   },
 
   location: {
@@ -83,12 +83,12 @@ captainSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-captainSchema.methods.comparePassword = async function(){
-    return await bcrypt.compare(password, this.password);
-}
+captainSchema.methods.comparePassword = async function () {
+  return await bcrypt.compare(password, this.password);
+};
 
-captainSchema.statics.hashPassword = async function(password){
-    return await bcrypt.hash(password, 10);
-}
+captainSchema.statics.hashPassword = async function (password) {
+  return await bcrypt.hash(password, 10);
+};
 
 export const Captain = mongoose.model("Captain", captainSchema);

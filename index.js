@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import userRoute from "./routers/user.routes.js";
+import captainRoute from './routers/captain.routes.js';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 const app = express();
@@ -17,5 +18,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth/v2/user", userRoute);
+app.use("/auth/v2/captain", captainRoute);
 
 export default app;
