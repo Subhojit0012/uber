@@ -1,4 +1,4 @@
-import { Captain } from "../models/captain.model";
+import { Captain } from "../models/captain.model.js";
 
 const createCaptain = async function ({
   firstname,
@@ -38,3 +38,5 @@ const createCaptain = async function ({
     },
   });
 };
+
+export default createCaptain;

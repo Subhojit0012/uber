@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { registerCaptain } from "../controllers/captain.controller";
+import { registerCaptain } from "../controllers/captain.controller.js";
 
 const router = Router();
 
