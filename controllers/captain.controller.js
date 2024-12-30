@@ -10,14 +10,14 @@ const registerCaptain = async (req, res) => {
 
   const { fullname, email, password, vehicle } = req.body;
 
-  const isCaptainAlreadyExist = await Captain.findOne({ email });
+  if (!fullname || !email || !password || !vehicle) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const isCaptainAlreadyExist = await Captain.findOne({ email }).exec();
 
   if (isCaptainAlreadyExist) {
     return res.status(400).json({ message: "Captain already exists" });
-  }
-
-  if (!fullname || !email || !password || !vehicle) {
-    return res.status(400).json({ message: "All fields are required" });
   }
 
   const hashPassword = await Captain.hashPassword(password);
@@ -27,7 +27,10 @@ const registerCaptain = async (req, res) => {
     lastname: fullname.lastname,
     email,
     password: hashPassword,
-    vehicle,
+    color: vehicle.color,
+    plate: vehicle.plate,
+    capacity: vehicle.capacity,
+    vehicleType: vehicle.vehicleType,
   });
 
   if (!captain) {

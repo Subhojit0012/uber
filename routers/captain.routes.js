@@ -24,7 +24,7 @@ router.post(
     body("vehicle.capacity")
       .isNumeric()
       .withMessage("Capacity must be a number"),
-    body("vehicleType")
+    body("vehicle.vehicleType")
       .isString()
       .isIn(["car", "motorcycle", "auto"])
       .withMessage("Invalid vehicle type"),
