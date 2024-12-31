@@ -14,31 +14,35 @@ This project is a simple API for user registration and authentication, inspired 
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/uber-clone-api.git
    cd uber-clone-api
 
     npm install
+   ```
 
 ## ENVIRONMENT VARIABLE
+
 ```
     MONGODB_URI=your_mongodb_uri
     JWT_SECRET=your_jwt_secret
 ```
 
 ## Middlewares:
+
 ### **Authentication:**
- -  auth.middleware  
 
- *Function review*
+- auth.middleware
 
- `Retrieves the JWT token:`It checks for the token in both cookies and the Authorization header.
+_Function review_
 
- `Validates the token:`It verifies the token using the secret key stored in the environment variable JWT_SECRET.
+`Retrieves the JWT token:`It checks for the token in both cookies and the Authorization header.
 
- `Fetches the user:`It uses the decoded token ID to find the corresponding user in the database.
+`Validates the token:`It verifies the token using the secret key stored in the environment variable JWT_SECRET.
 
- `Attaches the user object:`If the user is found, it attaches the user object to the request object for further use.
+`Fetches the user:`It uses the decoded token ID to find the corresponding user in the database.
 
- `Handles errors:`It catches any errors that occur during the process and sends an appropriate error response.
- 
+`Attaches the user object:`If the user is found, it attaches the user object to the request object for further use.
+
+`Handles errors:`It catches any errors that occur during the process and sends an appropriate error response.

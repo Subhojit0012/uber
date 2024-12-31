@@ -1,20 +1,21 @@
 ## FOLDER STRUCTURE:
+
 uber/
 ├── controllers/
-│   └── user.controller.js      # Handles user-related requests
+│ └── user.controller.js # Handles user-related requests
 ├── db/
-│   └── dbConnect.js            # Database connection logic
+│ └── dbConnect.js # Database connection logic
 ├── models/
-│   └── user.model.js            # Mongoose user model
+│ └── user.model.js # Mongoose user model
 ├── routers/
-│   └── user.routes.js           # User-related routes
+│ └── user.routes.js # User-related routes
 ├── services/
-│   └── user.service.js          # User service for business logic
-├── crypotoKey.js                # Key generation for cryptographic operations
-├── connectStr.js                # Database name configuration
-├── index.js                     # Main application setup
-├── package.json                 # Project metadata and dependencies
-└── server.js                    # Server entry point
+│ └── user.service.js # User service for business logic
+├── crypotoKey.js # Key generation for cryptographic operations
+├── connectStr.js # Database name configuration
+├── index.js # Main application setup
+├── package.json # Project metadata and dependencies
+└── server.js # Server entry point
 
 ### Explanation of the Code
 
