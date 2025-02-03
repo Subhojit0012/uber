@@ -99,10 +99,7 @@ const logoutCaptain = async (req, res) => {
 		return res.status(400).json({ message: "failed to backlist token!" });
 	}
 
-	return res
-		.status(200)
-		.clearCookie("token")
-		.json({ message: "cookie cleared", backListToken });
+	return res.status(200).clearCookie("token").json({ message: "Logout successfull!" });
 };
 
 export { registerCaptain, loginCaptain, logoutCaptain, captainProfile };
