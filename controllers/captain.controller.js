@@ -38,8 +38,48 @@ const registerCaptain = async (req, res) => {
 	}
 
 	const token = captain.generateAuthToken();
+	if (!token) {
+		return res.status(400).json({ message: "token not created" });
+	}
 
 	return res.status(200).json({ captain, token });
 };
 
-export { registerCaptain };
+const loginCaptain = async (req, res) => {
+	const error = validationResult(req);
+
+	if (!error.isEmpty()) {
+		return res.json({ error: error.array() });
+	}
+
+	const { email, password } = req.body;
+
+	if (!email || !password) {
+		return res.status(404).json({ message: "email and password not fiiled" });
+	}
+
+	const captain = await Captain.findOne({ email }).select("+password");
+	if (!captain) {
+		return res.status(404).json({ message: "Captain not found" });
+	}
+
+	const isPasswordMatched = await captain.comparePassword(password);
+
+	if (!isPasswordMatched) {
+		return res.status(400).json({ message: "password not matched" });
+	}
+
+	const createToken = captain.generateAuthToken();
+	if (!createToken) {
+		return res.status(400).json({ message: "token not created!" });
+	}
+	const options = {
+		httpOnly: true,
+		secure: true,
+		expires: "12h",
+	};
+
+	return res.status(200).cookie("token", createToken, options).json({ captain });
+};
+
+export { registerCaptain, loginCaptain };
