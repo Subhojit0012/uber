@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import {
+	captainProfile,
 	loginCaptain,
 	logoutCaptain,
 	registerCaptain,
 } from "../controllers/captain.controller.js";
+import { authCaptain } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
@@ -46,7 +48,8 @@ router.post(
 	loginCaptain,
 );
 
-router.get("/logout", logoutCaptain);
+router.get("/captain-profile", authCaptain, captainProfile);
 
+router.get("/logout", logoutCaptain);
 
 export default router;

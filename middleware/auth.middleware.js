@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
+import { Captain } from "../models/captain.model.js";
 
 // * Authorize the user:
 // This middleware function checks for a valid JWT token in the request.
@@ -41,5 +42,38 @@ export const authUser = async (req, res, next) => {
 	} catch (error) {
 		// Handle any errors that occur during the process
 		return res.status(500).json({ message: error.message }); // Use 500 for server errors
+	}
+};
+
+// * Authorize the captain:
+// This middleware function checks for a valid JWT token in the request.
+// If the token is present and valid, it retrieves the associated user from the database
+// and attaches the user object to the request for further processing.
+// If the token is missing, invalid, or the user is not found, it sends an appropriate error response.
+export const authCaptain = async (req, res, next) => {
+	const token = req.cookies?.token || req.headers["Authorization"]?.split(" ")[1];
+
+	if (!token) {
+		return res.status(400).json({ message: "auth token not found" });
+	}
+
+	const isBalckListed = await Captain.findOne({ token });
+	if (isBalckListed) return res.status(404).josn({ message: "token backlisted" });
+
+	try {
+		const decode = jwt.verify(token, process.env.JWT_SECRET);
+		if (!decode) {
+			return res.status(400).json({ message: "Token verification failed!" });
+		}
+
+		const captain = await Captain.findById(decode._id).select("-password");
+		if (!captain) {
+			return res.status(404).josn({ message: "captain not found" });
+		}
+
+		res.captain = captain;
+		next();
+	} catch (error) {
+		return res.status(400).json(error);
 	}
 };

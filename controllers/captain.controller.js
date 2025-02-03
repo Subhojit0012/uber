@@ -83,6 +83,10 @@ const loginCaptain = async (req, res) => {
 	return res.status(200).cookie("token", createToken, options).json({ captain });
 };
 
+const captainProfile = async (req, res) => {
+	return res.status(200).json(res.captain);
+};
+
 const logoutCaptain = async (req, res) => {
 	const token = req.cookies?.token || req.headers["Authorization"]?.token.split(" ")[1];
 
@@ -101,4 +105,4 @@ const logoutCaptain = async (req, res) => {
 		.json({ message: "cookie cleared", backListToken });
 };
 
-export { registerCaptain, loginCaptain, logoutCaptain };
+export { registerCaptain, loginCaptain, logoutCaptain, captainProfile };
