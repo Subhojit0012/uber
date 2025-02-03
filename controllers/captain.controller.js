@@ -1,6 +1,7 @@
 import { Captain } from "../models/captain.model.js";
 import { validationResult } from "express-validator";
 import createCaptain from "../services/captain.service.js";
+import { BlacklistToken } from "../models/blacklistToken.model.js";
 
 const registerCaptain = async (req, res) => {
 	const errors = validationResult(req);
@@ -73,13 +74,31 @@ const loginCaptain = async (req, res) => {
 	if (!createToken) {
 		return res.status(400).json({ message: "token not created!" });
 	}
+
 	const options = {
 		httpOnly: true,
 		secure: true,
-		expires: "12h",
 	};
 
 	return res.status(200).cookie("token", createToken, options).json({ captain });
 };
 
-export { registerCaptain, loginCaptain };
+const logoutCaptain = async (req, res) => {
+	const token = req.cookies?.token || req.headers["Authorization"]?.token.split(" ")[1];
+
+	if (!token) {
+		return res.status(400).json({ message: "Unauthorised" });
+	}
+
+	const backListToken = await BlacklistToken.create({ token });
+	if (!backListToken) {
+		return res.status(400).json({ message: "failed to backlist token!" });
+	}
+
+	return res
+		.status(200)
+		.clearCookie("token")
+		.json({ message: "cookie cleared", backListToken });
+};
+
+export { registerCaptain, loginCaptain, logoutCaptain };
