@@ -1,25 +1,54 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useContext } from "react";
+import { UserContextData } from "../context/UserContext";
 
 function UserSignup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
+	const [firstname, setFirstName] = useState("");
+	const [lastname, setLastName] = useState("");
 	const [userDate, setUserDate] = useState({});
+	const navigate = useNavigate();
 
-	function submitHandler(e) {
+	const { user, setUser } = useContext(UserContextData);
+
+	async function submitHandler(e) {
 		e.preventDefault();
-		setUserDate({
-			firstName: firstName,
-			lastName: lastName,
+		const newUser = {
+			fullName: {
+				firstname: firstname,
+				lastname: lastname,
+			},
 			email: email,
 			password: password,
-		});
+		};
+
+		await axios
+			.post(`http://localhost:8000/auth/v2/user/register`, newUser)
+			.then((res) => {
+				if (res.status === 200) {
+					const data = res.data.user;
+					if (!data) {
+						return console.log(res.data.errors);
+					}
+					// console.log(data);
+					setUser(data);
+					navigate("/home");
+				}
+				console.log(res.status);
+			})
+			.catch((error) => {
+				throw console.log(error.status);
+			});
+
 		setPassword("");
 		setEmail("");
-		setFullname("");
+		setLastName("");
+		setFirstName("");
 	}
 	return (
 		<div className="p-7 h-screen flex flex-col justify-between">
@@ -37,7 +66,7 @@ function UserSignup() {
 							className="bg-[#eeeeee] rounded mb-7 px-4 py-2 border w-1/2 text-lg placeholder:text-sm"
 							type="name"
 							placeholder="First name"
-							value={firstName}
+							value={firstname}
 							onChange={(e) => {
 								setFirstName(e.target.value);
 							}}
@@ -46,7 +75,7 @@ function UserSignup() {
 							className="bg-[#eeeeee] rounded mb-7 px-4 py-2 border w-1/2 text-lg placeholder:text-sm"
 							type="name"
 							placeholder="Last name"
-							value={lastName}
+							value={lastname}
 							onChange={(e) => {
 								setLastName(e.target.value);
 							}}
