@@ -1,11 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function UserLogin() {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [userData, setUserData] = useState({});
+
+	function submitHandler(e) {
+		e.preventDefault();
+		setUserData({
+			email: email,
+			password: password,
+		});
+		setEmail("");
+		setPassword("");
+	}
+
 	return (
-		<div className="p-7">
+		<div className="p-7 h-screen flex flex-col justify-between">
 			<div>
-				<form action="" className="">
+				<form action="" onSubmit={submitHandler}>
 					<img
 						className="w-16 mb-7"
 						src=""
@@ -16,9 +31,13 @@ function UserLogin() {
 					<input
 						className="bg-[#eeeeee] rounded mb-7 px-4 py-2 border w-full text-lg placeholder:text-sm"
 						type="email"
-						name=""
-						id=""
+						name="Email"
+						id="email"
 						placeholder="email"
+						value={email}
+						onChange={(e) => {
+							setEmail(e.target.value);
+						}}
 					/>
 					<h3 className="text-lg font-medium mb-2">Enter Your Password</h3>
 					<input
@@ -27,6 +46,10 @@ function UserLogin() {
 						name=""
 						id=""
 						placeholder="password"
+						value={password}
+						onChange={(e) => {
+							setPassword(e.target.value);
+						}}
 						required
 					/>
 					<br />
@@ -34,12 +57,14 @@ function UserLogin() {
 						Login
 					</button>
 				</form>
+				<p className="text-center">
+					New here?{" "}
+					<Link to="/sign-up" className="text-blue-600">
+						Create an Account
+					</Link>
+				</p>
 			</div>
-			<div>
-				<button className="bg-[#f1efef] text-blue-950 font-semibold rounded mb-7 px-2 py-2 border w-full text-xl placeholder:text-sm">
-					<Link to='/sign-up'>Create an Account</Link>
-				</button>
-			</div>
+			
 		</div>
 	);
 }
