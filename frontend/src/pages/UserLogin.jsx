@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContextData } from "../context/UserContext";
+import axios from "axios";
 
 function UserLogin() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [userData, setUserData] = useState({});
+	const navigate = useNavigate();
 
-	function submitHandler(e) {
+	const { user, setUser } = useContext(UserContextData);
+
+	async function submitHandler(e) {
 		e.preventDefault();
-		setUserData({
+		const userData = {
 			email: email,
 			password: password,
-		});
+		};
+
+		await axios
+			.post(`http://localhost:8000/auth/v2/user/login`, userData)
+			.then((res) => {
+				if (res.status === 200) {
+					const data = res.data;
+					if (!data) {
+						console.log(res.data.error);
+					}
+					// console.log(data.token)
+					setUser(data.user);
+					navigate("/home");
+				}
+				console.log(res.status);
+			})
+			.catch((error) => {
+				console.log(error.response.status);
+				console.log(error.response.data);
+			});
+
 		setEmail("");
 		setPassword("");
 	}
@@ -64,7 +89,6 @@ function UserLogin() {
 					</Link>
 				</p>
 			</div>
-			
 		</div>
 	);
 }
